@@ -351,7 +351,7 @@ GameObject:
   - component: {fileID: 1278038595}
   - component: {fileID: 1278038594}
   - component: {fileID: 1278038596}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Square
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -617,10 +617,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cc58021feef5c54bb4ca5b236a4572d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Movement
+  JumpPower: 5
   rb: {fileID: 0}
-  playerInput: 0
+  playerInput: {x: 0, y: 0}
   move_Speed: 5
+  CanDash: 0
   faux_Velocity: {x: 0, y: 0}
+  GroundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  DashMultiplier: 5
 --- !u!114 &1641821336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -655,7 +661,19 @@ MonoBehaviour:
     m_ActionId: 13e90ca5-bd6a-4c53-8b67-9610e1a8dff5
     m_ActionName: 'Player/Fire[/Mouse/leftButton,/Touchscreen/primaryTouch/tap]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1641821335}
+        m_TargetAssemblyTypeName: Movement, Assembly-CSharp
+        m_MethodName: OnJump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
     m_ActionId: 9855c302-6ba6-436d-ae0d-ea01d87d30a8
     m_ActionName: 'Player/Jump[/Keyboard/space]'
   - m_PersistentCalls:
@@ -714,6 +732,22 @@ MonoBehaviour:
         m_CallState: 1
     m_ActionId: 1b3f35ac-e139-43e0-b436-2f835d48ca39
     m_ActionName: 'Player/Move[/Keyboard/a,/Keyboard/d]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1641821335}
+        m_TargetAssemblyTypeName: Movement, Assembly-CSharp
+        m_MethodName: OnDash
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+    m_ActionId: 10159c68-6ab0-4c7f-8bed-871ac6d62553
+    m_ActionName: 'Player/Dash[/Keyboard/shift]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -744,8 +778,8 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &2118168724
 GameObject:
   m_ObjectHideFlags: 0

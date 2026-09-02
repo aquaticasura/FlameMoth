@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efadfc8cea075414ab6b326e7e53ce23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HoverItem
-  NameText: {fileID: 2266621258633472318}
+  NameText: {fileID: 7486580208813067930}
 --- !u!114 &1695302305878465386
 MonoBehaviour:
   m_ObjectHideFlags: 0

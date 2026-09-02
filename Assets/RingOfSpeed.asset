@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8abbfbad0e643fb4f98ac70364910e50, type: 3}
+  m_Name: RingOfSpeed
+  m_EditorClassIdentifier: Assembly-CSharp::Accessory
+  ID: 2
+  Name: Ring of Speed
+  quantity: 1
+  itemtype: ring
+  SpeedBoost: 1
+  JumpBoost: 1
+  AirJumps: 1
+  RollStrength: 0
+  itemsprite: {fileID: -4676093299339909737, guid: cfe9988b2327dc74c91c10033529a645, type: 3}

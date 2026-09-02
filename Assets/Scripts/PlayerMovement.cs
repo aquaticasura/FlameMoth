@@ -14,8 +14,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerInput playerInput;
     private SpriteRenderer spriteRenderer;
-    [SerializeField] SpriteRenderer armsprite;
-    [SerializeField] ArmAndGunScript mouse;
+    
 
     [Header("Input")]
     public Vector2 moveInput;
@@ -97,14 +96,8 @@ public class PlayerMovement : MonoBehaviour
         if (moveInput.x > 0.01f) facingdirection = 1;
         if (moveInput.x < -0.01f) facingdirection = -1;
 
-        if (mouse.mousePos.x < 960 && facingdirection > 0)
-        {
-            FlipSprite("left");
-        }
-        else //(mouse.mousePos.x > 960 && facingdirection < 0)
-        {
-            FlipSprite("right");
-        }
+        
+        
 
  
     }
@@ -158,8 +151,14 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
     }
-    public bool Grounded(){
-        return Physics2D.BoxCast(transform.position, groundCheckSize, 0f, Vector2.down, groundCheckDistance, groundLayer);
+    public bool Grounded()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.6f, groundLayer);
+        if (hit.collider != null)
+        {
+            return true;
+        }
+        return false;
     }
 
     public bool WallLeft()
@@ -221,23 +220,7 @@ public class PlayerMovement : MonoBehaviour
         isRolling = false;
     }
 
-    public void FlipSprite(string direction)
-    {
-        if (direction == "right")
-        {
-            spriteRenderer.flipX = false;
-            armsprite.flipX = false;
-            armsprite.flipY = false;
-        }
-        else if (direction == "left")
-        {
-            spriteRenderer.flipX = true;
-            armsprite.flipY = true;
-        }
-
-
-
-    }
+    
     public void GetRecoiled(Vector2 direction)
     {
         rb.AddForce(direction, ForceMode2D.Impulse);

@@ -53,7 +53,7 @@ public class ArmAndGunScript : MonoBehaviour
         worldPos.z = ArmTransgoon.position.z;
         isMouseRight = worldPos.x >= ArmTransgoon.position.x;
 
-        playermovementscript.FlipSprite(isMouseRight ? "right" : "left");
+        
         
     }
     void FixedUpdate()

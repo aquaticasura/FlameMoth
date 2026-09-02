@@ -1,3 +1,4 @@
+using System;
 using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,7 +19,7 @@ public class MenuController : MonoBehaviour
     {
 
     }
-    public void menu()
+    public void Menu()
     {
         if (!menuCanvas.activeSelf && PauseController.IsGamePaused)
         {
@@ -26,12 +27,13 @@ public class MenuController : MonoBehaviour
         }
         menuCanvas.SetActive(!menuCanvas.activeSelf);
         PauseController.SetPause(menuCanvas.activeSelf);
+        Debug.Log("menu()");
     }
     public void Menu(InputAction.CallbackContext context)
     {
         if (context.canceled)
         {
-            menu();
+            Menu();
         }
 
     }

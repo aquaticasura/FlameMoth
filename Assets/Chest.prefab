@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2333593588354293986}
   - component: {fileID: 7802685003372005226}
   - component: {fileID: 2607532494081400619}
-  - component: {fileID: 2399561083246418453}
+  - component: {fileID: 3580278224853898503}
   m_Layer: 0
   m_Name: Chest
   m_TagString: Untagged
@@ -79,8 +79,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 1439690767
-  m_SortingLayer: 0
+  m_SortingLayerID: 1661285677
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -5281422124547630143, guid: 6a9560e1f920857418b3e43e8b3244ae, type: 3}
@@ -139,7 +139,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.9016135, y: 1.0063438}
   m_EdgeRadius: 0
---- !u!114 &2399561083246418453
+--- !u!114 &3580278224853898503
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -148,8 +148,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 6296315193163891475}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f426a10da29b99468a0c3d75f985989, type: 3}
+  m_Script: {fileID: 11500000, guid: f8129dbd7a6e40241b008747aabd0d1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Chest
-  itemPrefab: {fileID: 0}
+  itemPrefab: {fileID: 1558148549613436484, guid: e41dc74b5d122f1459f6854d04742840, type: 3}
   openedSprite: {fileID: 4714410783012859700, guid: 6a9560e1f920857418b3e43e8b3244ae, type: 3}

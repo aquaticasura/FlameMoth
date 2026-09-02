@@ -1718,10 +1718,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1641821334}
-  - component: {fileID: 1641821335}
   - component: {fileID: 1641821336}
   - component: {fileID: 1641821337}
   - component: {fileID: 1641821338}
+  - component: {fileID: 1641821339}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1747,29 +1747,6 @@ Transform:
   - {fileID: 725984095}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1641821335
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1641821333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cc58021feef5c54bb4ca5b236a4572d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Movement
-  JumpPower: 5
-  rb: {fileID: 0}
-  playerInput: {x: 0, y: 0}
-  move_Speed: 5
-  CanDashTimeCheck: 1
-  CanDashGroundCheck: 1
-  faux_Velocity: {x: 0, y: 0}
-  GroundLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  DashMultiplier: 5
 --- !u!114 &1641821336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1805,8 +1782,8 @@ MonoBehaviour:
     m_ActionName: 'Player/Fire[/Mouse/leftButton,/Touchscreen/primaryTouch/tap]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1641821335}
-        m_TargetAssemblyTypeName: Movement, Assembly-CSharp
+      - m_Target: {fileID: 1641821339}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
         m_MethodName: OnJump
         m_Mode: 0
         m_Arguments:
@@ -1861,9 +1838,9 @@ MonoBehaviour:
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1641821335}
-        m_TargetAssemblyTypeName: Movement, Assembly-CSharp
-        m_MethodName: GetMovement
+      - m_Target: {fileID: 1641821339}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1877,9 +1854,9 @@ MonoBehaviour:
     m_ActionName: 'Player/Move[/Keyboard/a,/Keyboard/d]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1641821335}
-        m_TargetAssemblyTypeName: Movement, Assembly-CSharp
-        m_MethodName: OnDash
+      - m_Target: {fileID: 1641821339}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: OnRoll
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1957,6 +1934,43 @@ MonoBehaviour:
   RingSlotContainer: 0
   BraceletSlotContainer: 0
   AmuletSlotContainer: 0
+--- !u!114 &1641821339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1641821333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf687d028e028ae45bafc15775a71208, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
+  stamina: 50
+  maxhealth: 100
+  health: 0
+  moveInput: {x: 0, y: 0}
+  moveSpeed: 5
+  maxSpeed: 5
+  acceleration: 35
+  deceleration: 25
+  rollForce: 10
+  airControlMultiplier: 0.6
+  jumpForce: 10
+  maxJumpCount: 2
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  groundCheckSize: {x: 1, y: 1}
+  groundCheckDistance: 0.1
+  groundCheckGizmoColor: {r: 0, g: 1, b: 0, a: 1}
+  wallCheckSize: {x: 1, y: 1}
+  wallCheckDistance: 0.1
+  wallCheckHorizontalOffset: 0.5
+  wallCheckGizmoColor: {r: 0, g: 1, b: 1, a: 1}
+  maxWallJumps: 1
+  wallJumpHorizontalForce: 8
+  wallJumpVerticalForce: 10
 --- !u!114 &1742971066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3315,9 +3329,251 @@ CompositeCollider2D:
   m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths: []
+  m_ColliderPaths:
+  - m_Collider: {fileID: 4038786835277375232}
+    m_ColliderPaths:
+    - - X: -80000000
+        Y: -110000000
+      - X: 140000000
+        Y: -110000000
+      - X: 140000000
+        Y: 30000000
+      - X: 90000000
+        Y: 30000000
+      - X: 90000000
+        Y: -10000000
+      - X: -250000000
+        Y: -10000000
+      - X: -250000000
+        Y: -50000000
+      - X: -290000000
+        Y: -50000000
+      - X: -290000000
+        Y: -90000000
+      - X: -790000000
+        Y: -90000000
+      - X: -790000000
+        Y: -50000000
+      - X: -830000000
+        Y: -50000000
+      - X: -830000000
+        Y: -10000000
+      - X: -870000000
+        Y: -10000000
+      - X: -870000000
+        Y: 80000000
+      - X: -830000000
+        Y: 80000000
+      - X: -830000000
+        Y: 130000000
+      - X: -220000000
+        Y: 130000000
+      - X: -220000000
+        Y: 20000000
+      - X: -80000000
+        Y: 20000000
+      - X: -80000000
+        Y: 60000000
+      - X: -130000000
+        Y: 60000000
+      - X: -130000000
+        Y: 130000000
+      - X: 330000000
+        Y: 130000000
+      - X: 330000000
+        Y: 150000000
+      - X: 520000000
+        Y: 150000000
+      - X: 520000000
+        Y: 110000000
+      - X: 390000000
+        Y: 110000000
+      - X: 390000000
+        Y: 70000000
+      - X: 370000000
+        Y: 70000000
+      - X: 370000000
+        Y: 50000000
+      - X: 480000000
+        Y: 50000000
+      - X: 480000000
+        Y: 70000000
+      - X: 540000000
+        Y: 70000000
+      - X: 540000000
+        Y: 20000000
+      - X: 570000000
+        Y: 20000000
+      - X: 570000000
+        Y: 40000000
+      - X: 600000000
+        Y: 40000000
+      - X: 600000000
+        Y: 60000000
+      - X: 680000000
+        Y: 60000000
+      - X: 680000000
+        Y: 200000000
+      - X: -910000000
+        Y: 200000000
+      - X: -910000000
+        Y: -130000000
+      - X: -80000000
+        Y: -130000000
+    - - X: 190000000
+        Y: 101250000
+      - X: 190000000
+        Y: 110000000
+      - X: 140000000
+        Y: 110000000
+      - X: 140000000
+        Y: 100625000
+      - X: 140624992
+        Y: 100000000
+      - X: 188750000
+        Y: 100000000
+    - - X: 330000000
+        Y: 110000000
+      - X: 240000000
+        Y: 110000000
+      - X: 240000000
+        Y: 60000000
+      - X: 330000000
+        Y: 60000000
+    - - X: 500000000
+        Y: -60000000
+      - X: 340000000
+        Y: -60000000
+      - X: 340000000
+        Y: -50000000
+      - X: 320000000
+        Y: -50000000
+      - X: 320000000
+        Y: 10000000
+      - X: 360000000
+        Y: 10000000
+      - X: 360000000
+        Y: 30000000
+      - X: 190000000
+        Y: 30000000
+      - X: 190000000
+        Y: -110000000
+      - X: 310000000
+        Y: -110000000
+      - X: 310000000
+        Y: -130000000
+      - X: 500000000
+        Y: -130000000
+    - - X: 870000000
+        Y: -120000000
+      - X: 760000000
+        Y: -120000000
+      - X: 760000000
+        Y: -10000000
+      - X: 680000000
+        Y: -10000000
+      - X: 680000000
+        Y: 30000000
+      - X: 620000000
+        Y: 30000000
+      - X: 620000000
+        Y: 10000000
+      - X: 600000000
+        Y: 10000000
+      - X: 600000000
+        Y: -10000000
+      - X: 360000000
+        Y: -10000000
+      - X: 360000000
+        Y: -40000000
+      - X: 580000000
+        Y: -40000000
+      - X: 580000000
+        Y: -130000000
+      - X: 870000000
+        Y: -130000000
   m_CompositePaths:
-    m_Paths: []
+    m_Paths:
+    - - {x: -8, y: -11}
+      - {x: 14, y: -11}
+      - {x: 14, y: 3}
+      - {x: 9, y: 3}
+      - {x: 9, y: -1}
+      - {x: -25, y: -1}
+      - {x: -25, y: -5}
+      - {x: -29, y: -5}
+      - {x: -29, y: -9}
+      - {x: -79, y: -9}
+      - {x: -79, y: -5}
+      - {x: -83, y: -5}
+      - {x: -83, y: -1}
+      - {x: -87, y: -1}
+      - {x: -87, y: 8}
+      - {x: -83, y: 8}
+      - {x: -83, y: 13}
+      - {x: -22, y: 13}
+      - {x: -22, y: 2}
+      - {x: -8, y: 2}
+      - {x: -8, y: 6}
+      - {x: -13, y: 6}
+      - {x: -13, y: 13}
+      - {x: 33, y: 13}
+      - {x: 33, y: 15}
+      - {x: 52, y: 15}
+      - {x: 52, y: 11}
+      - {x: 39, y: 11}
+      - {x: 39, y: 7}
+      - {x: 37, y: 7}
+      - {x: 37, y: 5}
+      - {x: 48, y: 5}
+      - {x: 48, y: 7}
+      - {x: 54, y: 7}
+      - {x: 54, y: 2}
+      - {x: 57, y: 2}
+      - {x: 57, y: 4}
+      - {x: 60, y: 4}
+      - {x: 60, y: 6}
+      - {x: 68, y: 6}
+      - {x: 68, y: 20}
+      - {x: -91, y: 20}
+      - {x: -91, y: -13}
+      - {x: -8, y: -13}
+    - - {x: 19, y: 10.125}
+      - {x: 19, y: 11}
+      - {x: 14, y: 11}
+      - {x: 14, y: 10.0625}
+      - {x: 14.062499, y: 10}
+      - {x: 18.875, y: 10}
+    - - {x: 33, y: 11}
+      - {x: 24, y: 11}
+      - {x: 24, y: 6}
+      - {x: 33, y: 6}
+    - - {x: 50, y: -6}
+      - {x: 34, y: -6}
+      - {x: 34, y: -5}
+      - {x: 32, y: -5}
+      - {x: 32, y: 1}
+      - {x: 36, y: 1}
+      - {x: 36, y: 3}
+      - {x: 19, y: 3}
+      - {x: 19, y: -11}
+      - {x: 31, y: -11}
+      - {x: 31, y: -13}
+      - {x: 50, y: -13}
+    - - {x: 87, y: -12}
+      - {x: 76, y: -12}
+      - {x: 76, y: -1}
+      - {x: 68, y: -1}
+      - {x: 68, y: 3}
+      - {x: 62, y: 3}
+      - {x: 62, y: 1}
+      - {x: 60, y: 1}
+      - {x: 60, y: -1}
+      - {x: 36, y: -1}
+      - {x: 36, y: -4}
+      - {x: 58, y: -4}
+      - {x: 58, y: -13}
+      - {x: 87, y: -13}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0
   m_UseDelaunayMesh: 0
@@ -33801,7 +34057,7 @@ TilemapCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_CompositeOperation: 0
+  m_CompositeOperation: 1
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000

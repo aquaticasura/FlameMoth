@@ -1,5 +1,4 @@
-using System;
-using UnityEditor.UI;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,12 +13,8 @@ public class MenuController : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
-    public void Menu()
+    public void menu()
     {
         if (!menuCanvas.activeSelf && PauseController.IsGamePaused)
         {
@@ -33,7 +28,7 @@ public class MenuController : MonoBehaviour
     {
         if (context.canceled)
         {
-            Menu();
+            menu();
         }
 
     }

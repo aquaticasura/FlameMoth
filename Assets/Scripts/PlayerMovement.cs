@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using System.Diagnostics;
+using System;
 //Script brought to you by the flipping goat
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
@@ -14,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerInput playerInput;
     private SpriteRenderer spriteRenderer;
-    
+
 
     [Header("Input")]
     public Vector2 moveInput;
@@ -24,12 +25,12 @@ public class PlayerMovement : MonoBehaviour
     public float maxSpeed = 5f;
     public float acceleration = 35f;
     public float deceleration = 25f;
-    public float rollForce = 10f;
+    public float rollForce;
     public float airControlMultiplier = 0.6f;
 
     [Header("Jump")]
-    public float jumpForce = 10f;
-    public int maxJumpCount = 2;
+    public float jumpForce = 5f;
+    public int maxJumpCount = 1;
 
     [Header("Ground Check")]
     public LayerMask groundLayer;
@@ -48,23 +49,27 @@ public class PlayerMovement : MonoBehaviour
     public float wallJumpHorizontalForce = 8f;
     public float wallJumpVerticalForce = 10f;
 
- 
+
     private ParticleSystem fart;
     private bool isPressingMove;
     private bool isRolling;
     private int facingdirection = 1;
     private Vector2 recoilOffsett;
     private int jumpCount = 0;
+    private float DefaultGrav;
     float r;
+    public float DebugMagnitude;
 
-    private int wallJumpsRemaining;
+
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        DefaultGrav = rb.gravityScale;
         playerInput = GetComponent<PlayerInput>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         fart = GetComponentInChildren<ParticleSystem>();
+
     }
 
     void OnEnable()
@@ -80,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
             playerInput.SwitchCurrentActionMap("Player");
         }
 
-        wallJumpsRemaining = maxWallJumps;
+
     }
 
     // Update is called once per frame
@@ -89,58 +94,61 @@ public class PlayerMovement : MonoBehaviour
         if (Grounded())
         {
             jumpCount = 0;
-            wallJumpsRemaining = maxWallJumps;
+
         }
 
         isPressingMove = Mathf.Abs(moveInput.x) > 0.01f;
         if (moveInput.x > 0.01f) facingdirection = 1;
         if (moveInput.x < -0.01f) facingdirection = -1;
 
-        
-        
 
- 
+
+
+
     }
-    void FixedUpdate(){
+    /*void FixedUpdate()
+    {
         Vector2 velocity = rb.linearVelocity;
-        float targetSpeed = moveInput.x * maxSpeed;
-        float tempAccel = isPressingMove ? acceleration : deceleration;
-        if (!Grounded())
+        if(!isRolling)
         {
-            tempAccel *= airControlMultiplier;
+            float targetSpeed = moveInput.x * maxSpeed;
+            float tempAccel = isPressingMove ? acceleration : deceleration;
+            if (!Grounded())
+            {
+                tempAccel *= airControlMultiplier;
+            }
+            
+            velocity.x = Mathf.MoveTowards(velocity.x, targetSpeed, tempAccel * Time.fixedDeltaTime);
         }
-        velocity.x = Mathf.MoveTowards(velocity.x, targetSpeed, tempAccel * Time.fixedDeltaTime);
-
+        
         rb.linearVelocity = velocity + recoilOffsett;
         recoilOffsett = Vector2.Lerp(recoilOffsett, Vector2.zero, Time.fixedDeltaTime * 10f);
+    }
+    */
+    private void FixedUpdate()
+    {
+        if(Grounded() && moveInput.x == 0)
+        {
+            rb.linearVelocity = new Vector2 (Mathf.Lerp(rb.linearVelocity.x,0,Time.fixedDeltaTime*3), rb.linearVelocity.y);
+        }
+        if (Mathf.Abs(rb.linearVelocity.x) < maxSpeed)
+        {
+            rb.AddForce(new Vector2(moveInput.x * acceleration, 0), ForceMode2D.Force);
+        }
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
-        
+
     }
-    public void OnJump(InputAction.CallbackContext context){
+    public void OnJump(InputAction.CallbackContext context)
+    {
         if (!context.performed) return;
         bool isGrounded = Grounded();
-        bool onLeftWall = WallLeft();
-        bool onRightWall = WallRight();
 
-        if (!isGrounded && wallJumpsRemaining > 0 && (onLeftWall || onRightWall))
-        {
-            rb.linearVelocity = new Vector2(0f, 0f);
 
-            int wallSide = 0; // faggot
-            if (onLeftWall && !onRightWall) wallSide = -1;
-            if (onRightWall && !onLeftWall) wallSide = 1;
-            if (wallSide == 0) wallSide = facingdirection > 0 ? 1 : -1;
 
-            Vector2 wallJumpVelocity = new Vector2(-wallSide * wallJumpHorizontalForce, wallJumpVerticalForce);
-            rb.AddForce(wallJumpVelocity, ForceMode2D.Impulse);
-            wallJumpsRemaining--;
-            jumpCount--;
-            return;
-        }
 
         if (isGrounded || jumpCount < maxJumpCount)
         {
@@ -161,17 +169,7 @@ public class PlayerMovement : MonoBehaviour
         return false;
     }
 
-    public bool WallLeft()
-    {
-        Vector2 origin = (Vector2)transform.position + Vector2.left * wallCheckHorizontalOffset;
-        return Physics2D.BoxCast(origin, wallCheckSize, 0f, Vector2.left, wallCheckDistance, groundLayer);
-    }
 
-    public bool WallRight()
-    {
-        Vector2 origin = (Vector2)transform.position + Vector2.right * wallCheckHorizontalOffset;
-        return Physics2D.BoxCast(origin, wallCheckSize, 0f, Vector2.right, wallCheckDistance, groundLayer);
-    }
 
     void OnDrawGizmosSelected()
     {
@@ -207,20 +205,29 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawLine(rightStartCenter + new Vector3(wallHalf.x, wallHalf.y, 0f), rightEndCenter + new Vector3(wallHalf.x, wallHalf.y, 0f));
         Gizmos.DrawLine(rightStartCenter + new Vector3(wallHalf.x, -wallHalf.y, 0f), rightEndCenter + new Vector3(wallHalf.x, -wallHalf.y, 0f));
     }
-    public void OnRoll(InputAction.CallbackContext context){
-        if(context.performed && !isRolling){
+    public void OnRoll(InputAction.CallbackContext context)
+    {
+        if (context.performed && !isRolling)
+        {
             StartCoroutine(Roll());
         }
     }
-    private IEnumerator Roll(){
+    private IEnumerator Roll()
+    {
         isRolling = true;
-        rb.AddForce(Vector2.right * moveInput.x * rollForce, ForceMode2D.Impulse);
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+        Vector2 dashDir =  mousePos - (Vector2)transform.position;
+        dashDir = dashDir.normalized;
+        Vector2 dashVelocity = dashDir * rollForce;
+        dashVelocity = new Vector2(dashVelocity.x, dashVelocity.y);
+        rb.AddForce(dashVelocity, ForceMode2D.Impulse);
 
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.4f);
         isRolling = false;
     }
 
-    
+
     public void GetRecoiled(Vector2 direction)
     {
         rb.AddForce(direction, ForceMode2D.Impulse);

@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour
         yield return new WaitForSeconds(5f);
         Destroy(gameObject);
     }
-    void OnCollisionEnter2D(Collision2D collision)
+    /*void OnCollisionEnter2D(Collision2D collision)
     {
         EnemyMovement enemy = collision.collider.GetComponentInParent<EnemyMovement>();
         if (enemy == null)
@@ -44,7 +44,7 @@ public class Bullet : MonoBehaviour
         }
 
         Destroy(gameObject);
-    }
+    }*/
 
     public void SetDamage(float newDamage)
     {

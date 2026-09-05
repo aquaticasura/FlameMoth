@@ -59,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
     private float DefaultGrav;
     float r;
     public float DebugMagnitude;
+    private bool RollGroundCooldown;
 
 
 
@@ -94,6 +95,7 @@ public class PlayerMovement : MonoBehaviour
         if (Grounded())
         {
             jumpCount = 0;
+            RollGroundCooldown = false;
 
         }
 
@@ -207,7 +209,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void OnRoll(InputAction.CallbackContext context)
     {
-        if (context.performed && !isRolling)
+        if (context.performed && !isRolling && !RollGroundCooldown)
         {
             StartCoroutine(Roll());
         }
@@ -215,6 +217,7 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator Roll()
     {
         isRolling = true;
+        RollGroundCooldown = true;
         Vector2 mousePos = Mouse.current.position.ReadValue();
         mousePos = Camera.main.ScreenToWorldPoint(mousePos);
         Vector2 dashDir =  mousePos - (Vector2)transform.position;

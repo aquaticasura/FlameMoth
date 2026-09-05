@@ -1934,10 +1934,10 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_LinearDamping: 1
+  m_AngularDamping: 0
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: d4136ba5f3bc7aa4393e05af74650a30, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1986,13 +1986,13 @@ MonoBehaviour:
   maxSpeed: 5
   acceleration: 35
   deceleration: 25
-  rollForce: 10
+  rollForce: 7
   airControlMultiplier: 0.6
-  jumpForce: 10
-  maxJumpCount: 2
+  jumpForce: 5
+  maxJumpCount: 1
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   groundCheckSize: {x: 1, y: 1}
   groundCheckDistance: 0.1
   groundCheckGizmoColor: {r: 0, g: 1, b: 0, a: 1}
@@ -2003,6 +2003,7 @@ MonoBehaviour:
   maxWallJumps: 1
   wallJumpHorizontalForce: 8
   wallJumpVerticalForce: 10
+  DebugMagnitude: 0
 --- !u!114 &1742971066
 MonoBehaviour:
   m_ObjectHideFlags: 0

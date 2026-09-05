@@ -210,7 +210,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void OnRoll(InputAction.CallbackContext context){
         if(context.performed && !isRolling){
-            StartCoroutine(Roll());
+            StartCoroutine(Roll()); 
         }
     }
     private IEnumerator Roll(){
